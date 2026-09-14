@@ -35,8 +35,10 @@ CREATE TABLE "bills"(
 CREATE TABLE "order_rounds"(
     "round_id" INTEGER PRIMARY KEY NOT NULL,
     "bill_id" INTEGER NOT NULL,
-    "round_number" INTEGER NOT NULL,
+    "round_number" INTEGER NOT NULL CHECK (round_number > 0),
     "ordered_at" TEXT NOT NULL,
+
+    UNIQUE (bill_id, round_number),
 
     FOREIGN KEY (bill_id)
         REFERENCES bills(bill_id)
@@ -60,3 +62,9 @@ CREATE TABLE "order_items"(
         REFERENCES menu_items(menu_item_id)
         ON DELETE RESTRICT
 );
+
+CREATE INDEX idx_order_items_round_id
+ON order_items(round_id);
+
+CREATE INDEX idx_order_rounds_bill_id
+ON order_rounds(bill_id);
