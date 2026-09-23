@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, FlatList, Alert, Image } from 'react-nati
 import { styles } from '../styles/menuStyle';
 import AddonModal from '../components/AddonModal';
 import { CATEGORIES, MENU_ITEMS } from '../database/menuData';
+import TableScreen from './TableScreen';
 
 // onSubmitOrder(cart): callback ตอนกด "ยืนยันออเดอร์"
 // ถ้าไม่ส่ง prop มา จะ Alert สรุปแทน (ยังไม่ insert ลง order_rounds/order_items จริง
@@ -116,7 +117,7 @@ export default function MennuScreen({ navigation, onSubmitOrder, onGoBill, onGoO
           paddingVertical: 16,
         }}
       >
-        <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+        <TouchableOpacity onPress={() => navigation.navigate(TableScreen)}>
           <Text style={{ color: '#fff', fontSize: 16, fontWeight: '600' }}>หน้าแรก</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {

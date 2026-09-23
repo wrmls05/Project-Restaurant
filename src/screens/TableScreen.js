@@ -1,29 +1,3 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
-import { styles } from '../styles/menuStyle';
-
-export default function TableScreen() {
-  const navigation = useNavigation();
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>หน้าเลือกโต๊ะ</Text>
-
-      <TouchableOpacity
-        style={{
-          marginTop: 24,
-          backgroundColor: '#2f6fed',
-          paddingVertical: 12,
-          paddingHorizontal: 20,
-          borderRadius: 10,
-        }}
-        onPress={() => navigation.navigate('Menu')}
-      >
-        <Text style={{ color: '#fff', fontWeight: '600' }}>ไปที่เมนูอาหาร</Text>
-      </TouchableOpacity>
-    </View>
-  );
 import { View, Text, FlatList, Image, Pressable, } from "react-native";
 
 import { useState } from "react";
@@ -33,7 +7,7 @@ import { Tables } from "../data/tablesdata";
 
 const zones = ["A", "B", "C", "D", "E"];
 
-export default function TableScreen() {
+export default function TableScreen({ navigation }) {
 
     const [selectedZone, setSelectedZone] = useState("A");
     const [tableData, setTableData] = useState(Tables);
@@ -45,6 +19,11 @@ export default function TableScreen() {
 
     const handleTablePress = (table) => {
 
+         navigation.navigate("Menu", {
+            tableId: table.id,
+            tableName: table.name,
+        });
+
         setTableData((currentTables) =>
             currentTables.map((item) => {
                 if (item.id === table.id) {
@@ -55,6 +34,13 @@ export default function TableScreen() {
                 return item;
             })
         );
+    };
+
+    const handleImagePress = (table) => {
+        navigation.navigate("Menu", {
+            tableId: table.id,
+            tableName: table.name,
+        });
     };
 
     return (
@@ -107,6 +93,7 @@ export default function TableScreen() {
                     <Pressable
                         style={styles.tableContainer}
                         onPress={() => handleTablePress(item)}
+
                     >
 
                         <Image
