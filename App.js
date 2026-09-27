@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import TableScreen from './src/screens/TableScreen';
-import MenuScreen from './src/screens/MenuScreen';
-import CheckOrderScreen from './src/screens/CheckOrderScreen';
-import StatusOrderScreen from './src/screens/StatusOrderScreen';
-import BillScreen from './src/screens/BillScreen';
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+ 
+import StuffScreen from './src/screens/StuffScreen';
+import QueOrderScreen from './src/screens/QueOrderScreen';
+import AllBillsScreen from './src/screens/AllBillsScreen';
+ 
 const Stack = createNativeStackNavigator();
-
+ 
 export default function App() {
   const [activeTable, setActiveTable] = useState(null);
   const [ordersByTable, setOrdersByTable] = useState({});
@@ -67,78 +66,18 @@ export default function App() {
   };
 
   return (
-    <SafeAreaProvider>
+    <>
+      <StatusBar style="auto" />
       <NavigationContainer>
-        <StatusBar style="auto" />
-        <Stack.Navigator initialRouteName="Table" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Table">
-          {(props) => (
-            <TableScreen
-              {...props}
-              ordersByTable={ordersByTable}
-              onSelectTable={(table) => {
-                setActiveTable(table);
-                setCart([]);
-                props.navigation.navigate('Menu', { table });
-              }}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="Menu">
-          {(props) => (
-            <MenuScreen
-              {...props}
-              table={activeTable}
-              cart={cart}
-              onCartChange={setCart}
-              onGoTables={() => props.navigation.navigate('Table')}
-              onGoBill={() => goToBill(props.navigation)}
-              onGoOrder={() => goToOrders(props.navigation)}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="CheckOrder">
-          {(props) => (
-            <CheckOrderScreen
-              {...props}
-              table={activeTable}
-              cart={cart}
-              onCancel={() => props.navigation.goBack()}
-              onConfirm={(items) => confirmOrder(items, props.navigation)}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="StatusOrder">
-          {(props) => (
-            <StatusOrderScreen
-              {...props}
-              table={activeTable}
-              rounds={rounds}
-              onCancelItem={cancelOrderItem}
-              onGoTables={() => props.navigation.navigate('Table')}
-              onGoMenu={() => goToMenu(props.navigation)}
-              onGoBill={() => goToBill(props.navigation)}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="Bill">
-          {(props) => (
-            <BillScreen
-              {...props}
-              table={activeTable}
-              rounds={rounds}
-              onGoTables={() => props.navigation.navigate('Table')}
-              onGoMenu={() => goToMenu(props.navigation)}
-              onGoOrder={() => goToOrders(props.navigation)}
-            />
-          )}
-        </Stack.Screen>
+        <Stack.Navigator
+          initialRouteName="StuffScreen"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="StuffScreen" component={StuffScreen} />
+          <Stack.Screen name="QueOrderScreen" component={QueOrderScreen} />
+          <Stack.Screen name="AllBillsScreen" component={AllBillsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-    </SafeAreaProvider>
+    </>
   );
 }
