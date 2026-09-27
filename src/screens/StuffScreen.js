@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
  
 import { styles } from '../styles/StuffStyle'
  
-export default function StuffScreen({ navigation }) {
+export default function StuffScreen({ navigation, onStartOrder }) {
  
     const handleViewOrders = () => {
         navigation.navigate('QueOrderScreen')
@@ -18,6 +18,9 @@ export default function StuffScreen({ navigation }) {
                 <Text style={styles.header}>ฝั่งครัวและพนักงาน</Text>
  
                 <View style={styles.buttonRow}>
+                    <TouchableOpacity style={styles.button} onPress={onStartOrder} activeOpacity={0.7}>
+                        <Text style={styles.buttonText}>เริ่มรับออเดอร์</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={handleViewOrders}

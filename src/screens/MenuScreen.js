@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -8,6 +8,7 @@ import { CATEGORIES, MENU_ITEMS } from '../database/menuData';
 
 export default function MenuScreen({
   navigation,
+  db,
   table,
   cart = [],
   onCartChange,
@@ -15,14 +16,28 @@ export default function MenuScreen({
   onGoBill,
   onGoOrder,
 }) {
-  const activeCategories = useMemo(
-    () => CATEGORIES.filter((category) => category.is_active),
-    []
-  );
+  const [categories, setCategories] = useState(CATEGORIES);
+  const [menuItems, setMenuItems] = useState(MENU_ITEMS);
+  useEffect(() => {
+    let active = true;
+    Promise.all([
+      db.getAllAsync('SELECT category_id, name, is_active FROM categories ORDER BY category_id'),
+      db.getAllAsync('SELECT menu_item_id, category_id, name, price, is_available FROM menu_items ORDER BY menu_item_id'),
+    ]).then(([storedCategories, storedItems]) => {
+      if (!active) return;
+      if (storedCategories.length) setCategories(storedCategories);
+      if (storedItems.length) setMenuItems(storedItems.map((stored) => ({
+        ...(MENU_ITEMS.find((item) => item.menu_item_id === stored.menu_item_id) || {}),
+        ...stored,
+      })));
+    }).catch(() => {});
+    return () => { active = false; };
+  }, [db]);
+  const activeCategories = useMemo(() => categories.filter((category) => category.is_active), [categories]);
   const [activeCategoryId, setActiveCategoryId] = useState(activeCategories[0]?.category_id);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const visibleItems = MENU_ITEMS.filter(
+  const visibleItems = menuItems.filter(
     (item) => item.category_id === activeCategoryId && item.is_available
   );
   const cartTotal = cart.reduce(

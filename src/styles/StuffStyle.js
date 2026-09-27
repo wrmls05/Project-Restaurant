@@ -21,11 +21,14 @@ export const styles = StyleSheet.create({
   },
   buttonRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
-    paddingTop: 350,
+    paddingTop: 160,
   },
   button: {
     flex: 1,
+    flexBasis: '45%',
+    minHeight: 100,
     backgroundColor: '#B0B0B0',
     borderRadius: 6,
     paddingVertical: 22,
@@ -34,7 +37,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
-    fontSize: 23,
+    fontSize: 18,
     color: '#fff',
     fontWeight: '500',
   },
