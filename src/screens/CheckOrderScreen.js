@@ -1,15 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles/menuStyle';
 
-// props: cart (pendingCart จาก App.js), onCancel, onConfirm
-// เนื่องจาก meat/extras ถูกอัดรวมเป็น note ไว้แล้วตอนเลือกใน AddonModal (ดู order_items schema)
-// เลยแสดงเป็นบรรทัด "หมายเหตุ" บรรทัดเดียว แทนที่จะแยกเป็นเนื้อสัตว์ / Addons คนละบรรทัด
-export default function CheckOrderScreen({ route, navigation, cart: cartProp, onCancel, onConfirm }) {
-  const nav = useNavigation();
-  const cart = route?.params?.cart ?? cartProp ?? [];
-  const total = cart.reduce((sum, line) => sum + line.unit_price * line.quantity, 0);
+export default function CheckOrderScreen({ table, cart = [], onCancel, onConfirm }) {
+  const total = cart.reduce(
+    (sum, item) => sum + Number(item.unit_price || 0) * Number(item.quantity || 0),
+    0
+  );
 
   const renderItem = ({ item }) => (
     <View style={styles.itemCard}>
@@ -17,72 +14,47 @@ export default function CheckOrderScreen({ route, navigation, cart: cartProp, on
         {item.image ? (
           <Image source={{ uri: item.image }} style={styles.itemImagePhoto} resizeMode="cover" />
         ) : (
-          <Text style={styles.itemImageText}>รูป</Text>
+          <Text style={styles.itemImageText}>รูปอาหาร</Text>
         )}
       </View>
       <View style={styles.itemInfo}>
-        <Text style={styles.itemName}>ชื่อเมนู : {item.name}</Text>
-        <Text style={styles.itemLine}>ราคา : {item.unit_price} บาท</Text>
-        <Text style={styles.itemLine}>จำนวน : {item.quantity}</Text>
-        <Text style={styles.itemLine}>หมายเหตุ : {item.note || '-'}</Text>
+        <Text style={styles.itemName}>{item.name}</Text>
+        <Text style={styles.itemLine}>จำนวน {item.quantity} · {item.unit_price} บาท/ชิ้น</Text>
+        {item.note ? <Text style={styles.noteLine}>{item.note}</Text> : null}
+        <Text style={styles.itemLine}>
+          รวม {Number(item.unit_price || 0) * Number(item.quantity || 0)} บาท
+        </Text>
       </View>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>หน้าแสดงรายการที่จะสั่ง</Text>
-      <Text style={styles.subheading}>ตรวจสอบความถูกต้องก่อนที่จะกดสั่ง</Text>
+      <Text style={styles.heading}>ตรวจสอบออเดอร์ · โต๊ะ {table?.name || '-'}</Text>
+      <Text style={styles.subheading}>รายการทั้งหมดในรอบนี้</Text>
 
       {cart.length === 0 ? (
-        <Text style={styles.emptyText}>ยังไม่มีรายการ — กลับไปเลือกเมนูก่อน</Text>
+        <Text style={styles.emptyText}>ยังไม่มีรายการ กรุณากลับไปเลือกเมนู</Text>
       ) : (
         <FlatList
           data={cart}
-          keyExtractor={(item, idx) => `${item.menu_item_id}-${idx}`}
+          keyExtractor={(item, index) => `${item.menu_item_id}-${index}`}
           renderItem={renderItem}
-          contentContainerStyle={{ paddingBottom: 100 }}
+          contentContainerStyle={{ paddingBottom: 90 }}
         />
       )}
 
-      {cart.length > 0 && <Text style={styles.total}>รวม: {total} บาท</Text>}
-
+      <Text style={styles.total}>ยอดรวม {total} บาท</Text>
       <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.cancelBtn}
-          onPress={() => {
-            if (onCancel) {
-              onCancel();
-            } else {
-              (navigation ?? nav).navigate('Menu');
-            }
-          }}
-        >
-          <Text style={styles.cancelText}>ยกเลิก</Text>
+        <TouchableOpacity style={styles.cancelBtn} onPress={onCancel}>
+          <Text style={styles.cancelText}>กลับไปเลือกเมนู</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.confirmBtn, cart.length === 0 && styles.confirmBtnDisabled]}
-          onPress={() => {
-            if (onConfirm) {
-              onConfirm(cart);
-            } else {
-              const confirmedRounds = [
-                {
-                  round_number: 1,
-                  items: cart.map((item) => ({
-                    ...item,
-                    _id: `${item.menu_item_id}-${Date.now()}`,
-                    status: 'waiting',
-                  })),
-                },
-              ];
-
-              (navigation ?? nav).navigate('StatusOrder', { rounds: confirmedRounds });
-            }
-          }}
+          onPress={() => onConfirm?.(cart)}
           disabled={cart.length === 0}
         >
-          <Text style={styles.confirmText}>ยืนยัน</Text>
+          <Text style={styles.confirmText}>ยืนยันออเดอร์</Text>
         </TouchableOpacity>
       </View>
     </View>

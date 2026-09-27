@@ -1,10 +1,10 @@
 export const Tables = [
-    { id:'1', name: 'A1', zone: 'A', avaliable: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
-    { id:'2', name: 'A2', zone: 'A', avaliable: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
-    { id:'3', name: 'A3', zone: 'A', avaliable: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
-    { id:'4', name: 'A4', zone: 'A', avaliable: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
-    { id:'5', name: 'A5', zone: 'A', avaliable: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
-    { id:'6', name: 'A6', zone: 'A', avaliable: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
+    { id:'1', name: 'A1', zone: 'A', status: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
+    { id:'2', name: 'A2', zone: 'A', status: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
+    { id:'3', name: 'A3', zone: 'A', status: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
+    { id:'4', name: 'A4', zone: 'A', status: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
+    { id:'5', name: 'A5', zone: 'A', status: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
+    { id:'6', name: 'A6', zone: 'A', status: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
 
     { id:'7', name: 'B1', zone: 'B', avaliable: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
     { id:'8', name: 'B2', zone: 'B', avaliable: 'available', uri: 'https://www.realclipart.com/png/small/18-185260_size-dinner-table-icon-png.png' },
