@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { View, Text, FlatList, Image, Pressable } from 'react-native';
 
 import { styles } from '../styles/tableStyle';
-import { Tables } from '../data/tablesdata';
+import { Tables } from '../database/tablesdata';
 
 const ZONES = ['A', 'B', 'C', 'D', 'E'];
 
