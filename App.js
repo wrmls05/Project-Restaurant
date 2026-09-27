@@ -2,43 +2,99 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import TableScreen from './src/screens/TableScreen';
-import MennuScreen from './src/screens/MenuScreen';
+import MenuScreen from './src/screens/MenuScreen';
 import CheckOrderScreen from './src/screens/CheckOrderScreen';
-import StatutOrderScreen from './src/screens/StatutOrderScreen';
+import StatusOrderScreen from './src/screens/StatusOrderScreen';
 import BillScreen from './src/screens/BillScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [pendingCart, setPendingCart] = useState([]);
-  const [confirmedRounds, setConfirmedRounds] = useState([]);
+  const [activeTable, setActiveTable] = useState(null);
+  const [ordersByTable, setOrdersByTable] = useState({});
+  const [cart, setCart] = useState([]);
 
-  const createOrderRound = (cart) => ({
-    round_number: confirmedRounds.length + 1,
-    items: cart.map((item, idx) => ({
-      ...item,
-      _id: `${item.menu_item_id}-${Date.now()}-${idx}`,
-      status: 'waiting',
-    })),
-  });
+  const tableId = activeTable?.id;
+  const rounds = tableId ? ordersByTable[tableId] || [] : [];
+
+  const goToMenu = (navigation) => {
+    navigation.navigate('Menu', { table: activeTable });
+  };
+
+  const goToOrders = (navigation) => {
+    navigation.navigate('StatusOrder', { table: activeTable });
+  };
+
+  const goToBill = (navigation) => {
+    navigation.navigate('Bill', { table: activeTable });
+  };
+
+  const confirmOrder = (items, navigation) => {
+    if (!tableId || items.length === 0) return;
+
+    const nextRound = {
+      round_number: rounds.length + 1,
+      items: items.map((item, index) => ({
+        ...item,
+        _id: `${tableId}-${Date.now()}-${index}`,
+        status: 'waiting',
+      })),
+    };
+
+    setOrdersByTable((current) => ({
+      ...current,
+      [tableId]: [...(current[tableId] || []), nextRound],
+    }));
+    setCart([]);
+    navigation.navigate('StatusOrder', { table: activeTable });
+  };
+
+  const cancelOrderItem = (itemId) => {
+    if (!tableId) return;
+
+    setOrdersByTable((current) => ({
+      ...current,
+      [tableId]: (current[tableId] || []).map((round) => ({
+        ...round,
+        items: round.items.map((item) =>
+          item._id === itemId ? { ...item, status: 'cancelled' } : item
+        ),
+      })),
+    }));
+  };
 
   return (
-    <NavigationContainer>
-      <StatusBar style="auto" />
-      <Stack.Navigator initialRouteName="Table" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Table" component={TableScreen} />
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <StatusBar style="auto" />
+        <Stack.Navigator initialRouteName="Table" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Table">
+          {(props) => (
+            <TableScreen
+              {...props}
+              ordersByTable={ordersByTable}
+              onSelectTable={(table) => {
+                setActiveTable(table);
+                setCart([]);
+                props.navigation.navigate('Menu', { table });
+              }}
+            />
+          )}
+        </Stack.Screen>
 
         <Stack.Screen name="Menu">
           {(props) => (
-            <MennuScreen
+            <MenuScreen
               {...props}
-              onSubmitOrder={(cart) => {
-                setPendingCart(cart);
-              }}
-              onGoBill={() => props.navigation.navigate('Bill', { rounds: confirmedRounds })}
-              onGoOrder={() => props.navigation.navigate('StatusOrder', { rounds: confirmedRounds })}
+              table={activeTable}
+              cart={cart}
+              onCartChange={setCart}
+              onGoTables={() => props.navigation.navigate('Table')}
+              onGoBill={() => goToBill(props.navigation)}
+              onGoOrder={() => goToOrders(props.navigation)}
             />
           )}
         </Stack.Screen>
@@ -47,30 +103,24 @@ export default function App() {
           {(props) => (
             <CheckOrderScreen
               {...props}
-              cart={pendingCart}
-              onCancel={() => {
-                setPendingCart([]);
-                props.navigation.navigate('Menu');
-              }}
-              onConfirm={(cart) => {
-                const orderCart = Array.isArray(cart) ? cart : pendingCart;
-                const nextRound = createOrderRound(orderCart);
-                const nextRounds = [...confirmedRounds, nextRound];
-                setConfirmedRounds(nextRounds);
-                setPendingCart([]);
-                props.navigation.navigate('StatusOrder', { rounds: nextRounds });
-              }}
+              table={activeTable}
+              cart={cart}
+              onCancel={() => props.navigation.goBack()}
+              onConfirm={(items) => confirmOrder(items, props.navigation)}
             />
           )}
         </Stack.Screen>
 
         <Stack.Screen name="StatusOrder">
           {(props) => (
-            <StatutOrderScreen
+            <StatusOrderScreen
               {...props}
-              rounds={confirmedRounds}
-              onGoMenu={() => props.navigation.navigate('Menu')}
-              onGoBill={() => props.navigation.navigate('Bill', { rounds: confirmedRounds })}
+              table={activeTable}
+              rounds={rounds}
+              onCancelItem={cancelOrderItem}
+              onGoTables={() => props.navigation.navigate('Table')}
+              onGoMenu={() => goToMenu(props.navigation)}
+              onGoBill={() => goToBill(props.navigation)}
             />
           )}
         </Stack.Screen>
@@ -79,14 +129,16 @@ export default function App() {
           {(props) => (
             <BillScreen
               {...props}
-              tableNumber={1}
-              rounds={confirmedRounds}
-              onGoMenu={() => props.navigation.navigate('Menu')}
-              onGoOrder={() => props.navigation.navigate('StatusOrder', { rounds: confirmedRounds })}
+              table={activeTable}
+              rounds={rounds}
+              onGoTables={() => props.navigation.navigate('Table')}
+              onGoMenu={() => goToMenu(props.navigation)}
+              onGoOrder={() => goToOrders(props.navigation)}
             />
           )}
         </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }

@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   header: {
     marginTop: 50,
     justifyContent: "center",
-    alignItems: "center",
+    paddingLeft: 15,
   },
 
   textHeader: {
