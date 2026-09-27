@@ -5,9 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../styles/menuStyle';
 
 const STATUS_LABEL = { waiting: 'กำลังรอทำ', cooking: 'กำลังทำ', served: 'เสิร์ฟแล้ว', cancelled: 'ยกเลิกแล้ว' };
+
 export default function StatusOrderScreen({ db, table, onCancelItem, onGoTables, onGoMenu, onGoBill, refreshKey }) {
   const [items, setItems] = useState([]);
+
   const [loading, setLoading] = useState(true);
+
   useFocusEffect(useCallback(() => {
     let active = true;
     (async () => {
@@ -28,16 +31,31 @@ export default function StatusOrderScreen({ db, table, onCancelItem, onGoTables,
       <Text style={[styles.statusBadge, styles[`status_${item.status}`]]}>{STATUS_LABEL[item.status] || item.status}</Text>
     </View>
     <Text style={styles.itemLine}>รอบที่ {item.round_number} · {item.unit_price * item.quantity} บาท</Text>
-    {item.note ? <Text style={styles.noteLine}>{item.note}</Text> : null}
-    {item.status === 'waiting' ? <TouchableOpacity style={styles.cancelBtn} onPress={() => onCancelItem(item.id)}><Text style={styles.cancelText}>ยกเลิกรายการ</Text></TouchableOpacity> : null}
-  </View>;
-  return <SafeAreaView style={styles.container}>
-    <Text style={styles.heading}>ออเดอร์ · โต๊ะ {table?.name || '-'}</Text>
-    {loading ? <ActivityIndicator /> : items.length === 0 ? <Text style={styles.emptyText}>โต๊ะนี้ยังไม่มีออเดอร์</Text> : <FlatList data={items} keyExtractor={(item) => String(item.id)} renderItem={renderItem} contentContainerStyle={{ paddingBottom: 70 }} />}
-    <View style={styles.bottomNav}>
-      <TouchableOpacity onPress={onGoTables}><Text style={styles.navText}>เลือกโต๊ะ</Text></TouchableOpacity>
-      <TouchableOpacity onPress={onGoMenu}><Text style={styles.navText}>เพิ่มเมนู</Text></TouchableOpacity>
-      <TouchableOpacity onPress={onGoBill}><Text style={styles.navText}>บิล</Text></TouchableOpacity>
-    </View>
-  </SafeAreaView>;
+    {item.note ?
+      <Text style={styles.noteLine}>{item.note}</Text> : null}
+    {item.status === 'waiting' ?
+      <TouchableOpacity style={styles.cancelBtn} onPress={() => onCancelItem(item.id)}>
+        <Text style={styles.cancelText}>ยกเลิกรายการ</Text>
+      </TouchableOpacity> : null}
+  </View>
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.heading}>ออเดอร์ · โต๊ะ {table?.name || '-'}</Text>
+      {loading ?
+        <ActivityIndicator /> : items.length === 0 ?
+          <Text style={styles.emptyText}>โต๊ะนี้ยังไม่มีออเดอร์</Text> :
+          <FlatList
+            data={items}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={renderItem}
+            contentContainerStyle={{ paddingBottom: 70 }} />
+      }
+      <View style={styles.bottomNav}>
+        <TouchableOpacity onPress={onGoTables}><Text style={styles.navText}>เลือกโต๊ะ</Text></TouchableOpacity>
+        <TouchableOpacity onPress={onGoMenu}><Text style={styles.navText}>เพิ่มเมนู</Text></TouchableOpacity>
+        <TouchableOpacity onPress={onGoBill}><Text style={styles.navText}>บิล</Text></TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  )
 }

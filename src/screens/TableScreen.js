@@ -9,7 +9,9 @@ const ZONES = ['A', 'B', 'C', 'D', 'E'];
 
 export default function TableScreen({ navigation, db, refreshKey, onSelectTable }) {
   const [selectedZone, setSelectedZone] = useState('A');
+  
   const [occupiedTables, setOccupiedTables] = useState({});
+
   useFocusEffect(useCallback(() => {
     let active = true;
     db.getAllAsync("SELECT table_id FROM bills WHERE status='open'").then((rows) => {
