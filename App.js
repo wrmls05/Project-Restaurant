@@ -13,13 +13,7 @@ import CheckOrderScreen from './src/screens/CheckOrderScreen';
 import StatusOrderScreen from './src/screens/StatusOrderScreen';
 import BillScreen from './src/screens/BillScreen';
 import { Tables } from './src/database/tablesdata';
-import {
-  openRestaurantDatabase,
-  saveOrder,
-  cancelOrderItem,
-  changeOrderStatus,
-  closeBill,
-} from './src/database/restaurantDatabase';
+import { openRestaurantDatabase, saveOrder, cancelOrderItem, changeOrderStatus, closeBill } from './src/database/restaurantDatabase';
 
 const Stack = createNativeStackNavigator();
 const navigationRef = createNavigationContainerRef();
