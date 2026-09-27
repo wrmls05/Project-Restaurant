@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../styles/menuStyle';
 
 export default function CheckOrderScreen({ table, cart = [], onCancel, onConfirm }) {
@@ -29,7 +30,7 @@ export default function CheckOrderScreen({ table, cart = [], onCancel, onConfirm
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>ตรวจสอบออเดอร์ · โต๊ะ {table?.name || '-'}</Text>
       <Text style={styles.subheading}>รายการทั้งหมดในรอบนี้</Text>
 
@@ -57,6 +58,6 @@ export default function CheckOrderScreen({ table, cart = [], onCancel, onConfirm
           <Text style={styles.confirmText}>ยืนยันออเดอร์</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

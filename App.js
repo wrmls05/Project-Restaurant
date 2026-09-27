@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import TableScreen from './src/screens/TableScreen';
 import MenuScreen from './src/screens/MenuScreen';
@@ -66,9 +67,10 @@ export default function App() {
   };
 
   return (
-    <NavigationContainer>
-      <StatusBar style="auto" />
-      <Stack.Navigator initialRouteName="Table" screenOptions={{ headerShown: false }}>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <StatusBar style="auto" />
+        <Stack.Navigator initialRouteName="Table" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Table">
           {(props) => (
             <TableScreen
@@ -135,7 +137,8 @@ export default function App() {
             />
           )}
         </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }

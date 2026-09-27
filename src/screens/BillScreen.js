@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../styles/menuStyle';
 
 export default function BillScreen({ table, rounds = [], onGoTables, onGoMenu, onGoOrder }) {
@@ -13,7 +14,7 @@ export default function BillScreen({ table, rounds = [], onGoTables, onGoMenu, o
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>บิล · โต๊ะ {table?.name || '-'}</Text>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 80 }}>
         {rounds.length === 0 ? (
@@ -54,6 +55,6 @@ export default function BillScreen({ table, rounds = [], onGoTables, onGoMenu, o
         <TouchableOpacity onPress={onGoMenu}><Text style={styles.navText}>เพิ่มเมนู</Text></TouchableOpacity>
         <TouchableOpacity onPress={onGoOrder}><Text style={styles.navText}>ออเดอร์</Text></TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

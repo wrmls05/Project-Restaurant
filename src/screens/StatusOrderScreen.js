@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../styles/menuStyle';
 
 const STATUS_LABEL = {
@@ -45,7 +46,7 @@ export default function StatusOrderScreen({
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>ออเดอร์ · โต๊ะ {table?.name || '-'}</Text>
       {items.length === 0 ? (
         <Text style={styles.emptyText}>โต๊ะนี้ยังไม่มีออเดอร์</Text>
@@ -63,6 +64,6 @@ export default function StatusOrderScreen({
         <TouchableOpacity onPress={onGoMenu}><Text style={styles.navText}>เพิ่มเมนู</Text></TouchableOpacity>
         <TouchableOpacity onPress={onGoBill}><Text style={styles.navText}>บิล</Text></TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

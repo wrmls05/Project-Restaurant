@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { styles } from '../styles/menuStyle';
 import AddonModal from '../components/AddonModal';
@@ -58,7 +59,7 @@ export default function MenuScreen({
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>เมนูอาหาร · โต๊ะ {table?.name || '-'}</Text>
 
       <View style={styles.tabs}>
@@ -117,6 +118,6 @@ export default function MenuScreen({
           <Text style={styles.navText}>บิล</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
