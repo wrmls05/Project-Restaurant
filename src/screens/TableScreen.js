@@ -1,20 +1,31 @@
-import React, { useMemo, useState } from 'react';
-import { View, Text, FlatList, Image, Pressable } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { View, Text, FlatList, Image, Pressable, TouchableOpacity } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { styles } from '../styles/tableStyle';
 import { Tables } from '../database/tablesdata';
 
 const ZONES = ['A', 'B', 'C', 'D', 'E'];
 
-export default function TableScreen({ ordersByTable = {}, onSelectTable }) {
+export default function TableScreen({ navigation, db, refreshKey, onSelectTable }) {
   const [selectedZone, setSelectedZone] = useState('A');
+  
+  const [occupiedTables, setOccupiedTables] = useState({});
+
+  useFocusEffect(useCallback(() => {
+    let active = true;
+    db.getAllAsync("SELECT table_id FROM bills WHERE status='open'").then((rows) => {
+      if (active) setOccupiedTables(Object.fromEntries(rows.map((row) => [String(row.table_id), true])));
+    }).catch(() => { if (active) setOccupiedTables({}); });
+    return () => { active = false; };
+  }, [db, refreshKey]));
   const visibleTables = useMemo(
     () => Tables.filter((table) => table.zone === selectedZone),
     [selectedZone]
   );
 
   const renderTable = ({ item }) => {
-    const isOccupied = (ordersByTable[item.id] || []).length > 0;
+    const isOccupied = !!occupiedTables[item.id];
 
     return (
       <Pressable style={styles.tableContainer} onPress={() => onSelectTable?.(item)}>
@@ -50,6 +61,7 @@ export default function TableScreen({ ordersByTable = {}, onSelectTable }) {
       </View>
 
       <FlatList
+        style={{ flex: 1 }}
         data={visibleTables}
         keyExtractor={(table) => table.id}
         contentContainerStyle={styles.list}
@@ -57,6 +69,13 @@ export default function TableScreen({ ordersByTable = {}, onSelectTable }) {
         columnWrapperStyle={styles.row}
         renderItem={renderTable}
       />
+      <TouchableOpacity
+        style={styles.kitchenButton}
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate('StuffScreen')}
+      >
+        <Text style={styles.kitchenText}>ย้อนกลับ</Text>
+      </TouchableOpacity>
     </View>
   );
 }

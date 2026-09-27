@@ -1,13 +1,3 @@
-// src/data/menuData.js
-// รูปร่างข้อมูลตรงกับตาราง categories / menu_items ใน schema.sql
-// ตอนนี้ทั้งสองตารางใน restaurent.db ยังไม่มีข้อมูล เลยใช้ไฟล์นี้ทำหน้า UI ไปก่อน
-// พอพร้อมค่อยสลับไป query จาก SQLite จริง โดยคง field name ให้ตรงกับคอลัมน์เดิม
-// เพื่อสลับ source ทีหลังได้ง่าย (แค่เปลี่ยนที่ import ใน MennuScreen.js)
-//
-// image: ใส่เป็นลิงก์รูป (URL string) ได้เลย เช่น 'https://.../pad-kra-pao.jpg'
-// ไม่มีคอลัมน์นี้ใน schema.sql ตอนนี้ — ถ้าจะเก็บรูปจริงในฐานข้อมูลทีหลัง
-// ต้องเพิ่มคอลัมน์ image_url (TEXT) ลงตาราง menu_items ก่อน
-
 export const CATEGORIES = [
   { category_id: 1, name: 'อาหาร', is_active: 1 },
   { category_id: 2, name: 'เครื่องดื่ม', is_active: 1 },
@@ -15,8 +5,6 @@ export const CATEGORIES = [
   { category_id: 4, name: 'ของหวาน', is_active: 1 },
 ];
 
-// addon เป็นข้อมูลเสริมฝั่ง UI เท่านั้น (schema ไม่มีตาราง addon แยก)
-// ตอนยืนยัน จะถูกอัดรวมเป็นราคา (unit_price) + คำอธิบาย (note) ให้ตรงกับ order_items
 export const MENU_ITEMS = [
   {
     menu_item_id: 1,
