@@ -1,0 +1,36 @@
+export const Tables = [
+    { id:'1', name: 'A1', zone: 'A', status: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'2', name: 'A2', zone: 'A', status: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'3', name: 'A3', zone: 'A', status: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'4', name: 'A4', zone: 'A', status: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'5', name: 'A5', zone: 'A', status: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'6', name: 'A6', zone: 'A', status: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+
+    { id:'7', name: 'B1', zone: 'B', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'8', name: 'B2', zone: 'B', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'9', name: 'B3', zone: 'B', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'10', name: 'B4', zone: 'B', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'11', name: 'B5', zone: 'B', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'12', name: 'B6', zone: 'B', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+
+    { id:'13', name: 'C1', zone: 'C', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'14', name: 'C2', zone: 'C', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'15', name: 'C3', zone: 'C', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'16', name: 'C4', zone: 'C', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'17', name: 'C5', zone: 'C', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'18', name: 'C6', zone: 'C', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+
+    { id:'19', name: 'D1', zone: 'D', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'20', name: 'D2', zone: 'D', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'21', name: 'D3', zone: 'D', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'22', name: 'D4', zone: 'D', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'23', name: 'D5', zone: 'D', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'24', name: 'D6', zone: 'D', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+
+    { id:'25', name: 'E1', zone: 'E', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'26', name: 'E2', zone: 'E', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'27', name: 'E3', zone: 'E', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'28', name: 'E4', zone: 'E', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'29', name: 'E5', zone: 'E', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+    { id:'30', name: 'E6', zone: 'E', avaliable: 'available', uri: 'https://static.vecteezy.com/system/resources/thumbnails/008/201/527/small/dining-room-icon-flat-design-restaurant-menu-design-vector.jpg' },
+]

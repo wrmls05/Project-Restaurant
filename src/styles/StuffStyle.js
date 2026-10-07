@@ -1,0 +1,103 @@
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 16,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+    marginTop: 8,
+  },
+  headerTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#09090B',
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    color: '#71717A',
+    marginTop: 2,
+  },
+  iconCircleButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E4E4E7',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mainCard: {
+    backgroundColor: '#18181B',
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 16,
+    height: 180,
+    justifyContent: 'space-between',
+  },
+  plusIconCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  plusIconText: {
+    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: '300',
+  },
+  mainCardTitle: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '700',
+  },
+  mainCardSubtitle: {
+    color: '#A1A1AA',
+    fontSize: 13,
+    marginTop: 4,
+  },
+  secondaryRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  subCard: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    padding: 16,
+    height: 130,
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: '#F4F4F5',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+  },
+  subCardIconCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: '#F4F4F5',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  subCardTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#09090B',
+  },
+});

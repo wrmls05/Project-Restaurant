@@ -1,159 +1,153 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+// src/screens/TableScreen.js
+import React, { useCallback, useMemo, useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  Pressable,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { styles } from '../styles/tableStyle';
+import { Tables } from '../database/tablesdata';
 
-import { styles } from '../styles/menuStyle';
+const ZONES = ['A', 'B', 'C', 'D', 'E'];
 
-export default function TableScreen() {
-  const navigation = useNavigation();
+export default function TableScreen({ navigation, db, refreshKey, onSelectTable }) {
+  const [selectedZone, setSelectedZone] = useState('A');
+  const [occupiedTables, setOccupiedTables] = useState({});
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>หน้าเลือกโต๊ะ</Text>
-
-      <TouchableOpacity
-        style={{
-          marginTop: 24,
-          backgroundColor: '#2f6fed',
-          paddingVertical: 12,
-          paddingHorizontal: 20,
-          borderRadius: 10,
-        }}
-        onPress={() => navigation.navigate('Menu')}
-      >
-        <Text style={{ color: '#fff', fontWeight: '600' }}>ไปที่เมนูอาหาร</Text>
-      </TouchableOpacity>
-    </View>
+  useFocusEffect(
+    useCallback(() => {
+      let active = true;
+      db.getAllAsync("SELECT table_id FROM bills WHERE status='open'")
+        .then((rows) => {
+          if (active) {
+            setOccupiedTables(
+              Object.fromEntries(rows.map((row) => [String(row.table_id), true]))
+            );
+          }
+        })
+        .catch(() => {
+          if (active) setOccupiedTables({});
+        });
+      return () => {
+        active = false;
+      };
+    }, [db, refreshKey])
   );
-import { View, Text, FlatList, Image, Pressable, } from "react-native";
 
-import { useState } from "react";
+  const visibleTables = useMemo(
+    () => Tables.filter((table) => table.zone === selectedZone),
+    [selectedZone]
+  );
 
-import { styles } from "../styles/tableStyle";
-import { Tables } from "../data/tablesdata";
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
-const zones = ["A", "B", "C", "D", "E"];
+  const bgColor = isDarkMode ? styles.containerDark : styles.containerLight;
+  const textColor = isDarkMode ? styles.textDark : styles.textLight;
+  const subTextColor = isDarkMode ? styles.subTextDark : styles.subTextLight;
+  const cardColor = isDarkMode ? styles.tableCardDark : styles.tableCardLight;
+  const imageBgColor = isDarkMode ? styles.imageContainerDark : styles.imageContainerLight;
 
-export default function TableScreen() {
-
-    const [selectedZone, setSelectedZone] = useState("A");
-    const [tableData, setTableData] = useState(Tables);
-
-
-    const filteredTables = tableData.filter(
-        (table) => table.zone === selectedZone
-    )
-
-    const handleTablePress = (table) => {
-
-        setTableData((currentTables) =>
-            currentTables.map((item) => {
-                if (item.id === table.id) {
-                    return {
-                        ...item, status: item.status === "available" ? "occupied" : "available",
-                    };
-                }
-                return item;
-            })
-        );
-    };
+  const renderTable = ({ item }) => {
+    const isOccupied = !!occupiedTables[item.id];
 
     return (
-        <View style={styles.container}>
-
-            <View style={styles.header}>
-                <Text style={styles.textHeader}>
-                    หน้าเลือกโต๊ะ
-                </Text>
-            </View>
-
-
-            {/* Zone */}
-            <View style={styles.zoneTab}>
-
-                {zones.map((zone) => (
-
-                    <Pressable
-                        key={zone}
-                        onPress={() => setSelectedZone(zone)}
-                        style={[
-                            styles.zoneButton,
-                            selectedZone === zone && styles.zoneButtonActive
-                        ]}
-                    >
-
-                        <Text
-                            style={[
-                                styles.zoneText,
-                                selectedZone === zone && styles.zoneTextActive
-                            ]}
-                        >
-                            โซน {zone}
-                        </Text>
-
-                    </Pressable>
-
-                ))}
-
-            </View>
-
-            <FlatList
-                data={filteredTables}
-                keyExtractor={(item) => item.id}
-                contentContainerStyle={styles.list}
-                numColumns={2}
-                columnWrapperStyle={styles.row}
-                renderItem={({ item }) => (
-
-                    <Pressable
-                        style={styles.tableContainer}
-                        onPress={() => handleTablePress(item)}
-                    >
-
-                        <Image
-                            source={{ uri: item.uri }}
-                            style={styles.tableImage}
-                        />
-
-                        <View style={styles.tableNameContainer}>
-
-                            <Text style={styles.tableName}>
-                                โต๊ะ {item.name}
-                            </Text>
-
-                        </View>
-
-                        <View
-                            style={[
-                                styles.statusContainer,
-                                item.status === "occupied"
-                                    ? styles.statusOccupied
-                                    : styles.statusAvailable
-                            ]}
-                        >
-
-                            <Text style={styles.statusText}>
-                                {item.status === "occupied"
-                                    ? "เปิดบิลอยู่"
-                                    : "ว่าง"}
-                            </Text>
-
-                        </View>
-
-                    </Pressable>
-
-                )}
-            />
-            <Pressable
-                style={styles.kitchenButton}
-                onPress={() => console.log("ไปหน้าครัว")}
-            >
-
-                <Text style={styles.kitchenText}>
-                    ฝั่งครัว
-                </Text>
-
-            </Pressable>
-
+      <Pressable
+        style={[styles.tableCard, cardColor]}
+        onPress={() => onSelectTable?.(item)}
+      >
+        <View style={[styles.imageContainer, imageBgColor]}>
+          <Image source={{ uri: item.uri }} style={styles.tableImage} resizeMode="contain" />
         </View>
+        <Text style={[styles.tableName, textColor]}>โต๊ะ {item.name}</Text>
+        <View
+          style={[
+            styles.statusBadge,
+            isOccupied ? styles.badgeOccupied : styles.badgeAvailable,
+          ]}
+        >
+          <Text
+            style={[
+              styles.statusText,
+              isOccupied ? styles.statusTextOccupied : styles.statusTextAvailable,
+            ]}
+          >
+            {isOccupied ? '● มีออเดอร์' : '● ว่าง'}
+          </Text>
+        </View>
+      </Pressable>
     );
+  };
+
+  return (
+    <SafeAreaView style={[styles.container, bgColor]}>
+      <View style={styles.content}>
+        {/* Header */}
+        <View style={styles.headerRow}>
+          <View>
+            <Text style={[styles.headerTitle, textColor]}>เลือกโต๊ะ</Text>
+            <Text style={[styles.headerSubtitle, subTextColor]}>
+              แตะโต๊ะที่ว่างเพื่อเริ่มรับออเดอร์
+            </Text>
+          </View>
+          <TouchableOpacity style={[styles.iconCircleButton, cardColor]} onPress={toggleTheme}>
+            <Text style={{ fontSize: 18 }}>{isDarkMode ? '🌙' : '☀️'}</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Zone Tabs */}
+        <View style={styles.zoneWrapper}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {ZONES.map((zone) => (
+              <Pressable
+                key={zone}
+                onPress={() => setSelectedZone(zone)}
+                style={[
+                  styles.zonePill,
+                  selectedZone === zone && styles.zonePillActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.zoneText,
+                    selectedZone === zone && styles.zoneTextActive,
+                  ]}
+                >
+                  โซน {zone}
+                </Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Tables Grid */}
+        <FlatList
+          data={visibleTables}
+          keyExtractor={(table) => table.id}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+          renderItem={renderTable}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+        />
+
+        {/* Back Button */}
+        <TouchableOpacity
+          style={[styles.backButton, cardColor]}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('StuffScreen')}
+        >
+          <Text style={[styles.backButtonText, textColor]}>ย้อนกลับ</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
 }
