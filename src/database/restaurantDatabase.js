@@ -75,7 +75,9 @@ export async function openRestaurantDatabase() {
 
   for (const item of MENU_ITEMS) {
     await db.runAsync(
-      'INSERT OR IGNORE INTO menu_items (menu_item_id, category_id, name, price, is_available) VALUES (?, ?, ?, ?, ?)',
+      `INSERT INTO menu_items (menu_item_id, category_id, name, price, is_available)
+       VALUES (?, ?, ?, ?, ?)
+       ON CONFLICT(menu_item_id) DO UPDATE SET price = excluded.price`,
       item.menu_item_id,
       item.category_id,
       item.name,
