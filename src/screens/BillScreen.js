@@ -5,11 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../styles/menuStyle';
 
 export default function BillScreen({ db, table, route, onGoTables, onGoMenu, onGoOrder, refreshKey }) {
-
   const [rounds, setRounds] = useState([]);
-
   const [loading, setLoading] = useState(true);
-
   const billId = route?.params?.billId;
 
   useFocusEffect(useCallback(() => {
@@ -41,16 +38,12 @@ export default function BillScreen({ db, table, route, onGoTables, onGoMenu, onG
 
       } catch {
         if (active) setRounds([]);
-      }
-
-      finally {
+      } finally {
         if (active) setLoading(false);
       }
-
     })();
 
     return () => { active = false; };
-
   }, [db, table?.id, billId, refreshKey]));
 
   const total = rounds.reduce((sum, round) =>
@@ -80,10 +73,22 @@ export default function BillScreen({ db, table, route, onGoTables, onGoMenu, onG
             <Text style={[styles.itemName, { textAlign: 'right', marginTop: 8 }]}>ยอดสุทธิ {total} บาท</Text> : null}
         </ScrollView>
       }
-      <View style={styles.bottomNav}>
-        <TouchableOpacity onPress={onGoTables}><Text style={styles.navText}>เลือกโต๊ะ</Text></TouchableOpacity>
-        <TouchableOpacity onPress={onGoMenu}><Text style={styles.navText}>เพิ่มเมนู</Text></TouchableOpacity>
-        <TouchableOpacity onPress={onGoOrder}><Text style={styles.navText}>ออเดอร์</Text></TouchableOpacity>
+
+      <View style={styles.bottomNavContainer}>
+        <TouchableOpacity style={styles.navItem} onPress={onGoTables}>
+          <Text style={{ fontSize: 24, opacity: 0.5 }}>🏠</Text>
+          <Text style={styles.navText}>หน้าแรก</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navItem} onPress={onGoOrder}>
+          <Text style={{ fontSize: 24, opacity: 0.5 }}>📋</Text>
+          <Text style={styles.navText}>ออเดอร์</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem} onPress={() => {}}>
+          <Text style={{ fontSize: 24, opacity: 1 }}>🧾</Text>
+          <Text style={[styles.navText, {color: "#FF8C00"}]}>บิล</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )

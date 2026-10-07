@@ -8,7 +8,6 @@ const STATUS_LABEL = { waiting: 'กำลังรอทำ', cooking: 'กำ�
 
 export default function StatusOrderScreen({ db, table, onCancelItem, onGoTables, onGoMenu, onGoBill, refreshKey }) {
   const [items, setItems] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   useFocusEffect(useCallback(() => {
@@ -25,19 +24,22 @@ export default function StatusOrderScreen({ db, table, onCancelItem, onGoTables,
     })();
     return () => { active = false; };
   }, [db, table?.id, refreshKey]));
-  const renderItem = ({ item }) => <View style={styles.itemCard}>
-    <View style={styles.itemHeaderRow}>
-      <Text style={styles.itemName}>{item.name} × {item.quantity}</Text>
-      <Text style={[styles.statusBadge, styles[`status_${item.status}`]]}>{STATUS_LABEL[item.status] || item.status}</Text>
+
+  const renderItem = ({ item }) => (
+    <View style={styles.itemCard}>
+      <View style={styles.itemHeaderRow}>
+        <Text style={styles.itemName}>{item.name} × {item.quantity}</Text>
+        <Text style={[styles.statusBadge, styles[`status_${item.status}`]]}>{STATUS_LABEL[item.status] || item.status}</Text>
+      </View>
+      <Text style={styles.itemLine}>รอบที่ {item.round_number} · {item.unit_price * item.quantity} บาท</Text>
+      {item.note ?
+        <Text style={styles.noteLine}>{item.note}</Text> : null}
+      {item.status === 'waiting' ?
+        <TouchableOpacity style={styles.cancelBtn} onPress={() => onCancelItem(item.id)}>
+          <Text style={styles.cancelText}>ยกเลิกรายการ</Text>
+        </TouchableOpacity> : null}
     </View>
-    <Text style={styles.itemLine}>รอบที่ {item.round_number} · {item.unit_price * item.quantity} บาท</Text>
-    {item.note ?
-      <Text style={styles.noteLine}>{item.note}</Text> : null}
-    {item.status === 'waiting' ?
-      <TouchableOpacity style={styles.cancelBtn} onPress={() => onCancelItem(item.id)}>
-        <Text style={styles.cancelText}>ยกเลิกรายการ</Text>
-      </TouchableOpacity> : null}
-  </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,10 +53,22 @@ export default function StatusOrderScreen({ db, table, onCancelItem, onGoTables,
             renderItem={renderItem}
             contentContainerStyle={{ paddingBottom: 70 }} />
       }
-      <View style={styles.bottomNav}>
-        <TouchableOpacity onPress={onGoTables}><Text style={styles.navText}>เลือกโต๊ะ</Text></TouchableOpacity>
-        <TouchableOpacity onPress={onGoMenu}><Text style={styles.navText}>เพิ่มเมนู</Text></TouchableOpacity>
-        <TouchableOpacity onPress={onGoBill}><Text style={styles.navText}>บิล</Text></TouchableOpacity>
+
+      <View style={styles.bottomNavContainer}>
+        <TouchableOpacity style={styles.navItem} onPress={onGoTables}>
+          <Text style={{ fontSize: 24, opacity: 0.5 }}>🏠</Text>
+          <Text style={styles.navText}>หน้าแรก</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navItem} onPress={() => {}}>
+          <Text style={{ fontSize: 24, opacity: 1 }}>📋</Text>
+          <Text style={[styles.navText, {color: "#FF8C00"}]}>ออเดอร์</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem} onPress={onGoBill}>
+          <Text style={{ fontSize: 24, opacity: 0.5 }}>🧾</Text>
+          <Text style={styles.navText}>บิล</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )

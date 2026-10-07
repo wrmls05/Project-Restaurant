@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -37,7 +36,7 @@ export const styles = StyleSheet.create({
   selectBtnText: { color: '#fff', fontWeight: '600', fontSize: 13 },
   summaryBar: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 65, /* ยกขึ้นเพื่อให้ไม่บังแทบนำทางด้านล่าง */
     left: 0,
     right: 0,
     backgroundColor: '#333',
@@ -70,7 +69,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingVertical: 14,
   },
-  navText: { color: '#fff', fontSize: 13 },
   cancelBtn: { flex: 1, backgroundColor: '#888', paddingVertical: 16, alignItems: 'center' },
   cancelText: { color: '#fff', fontSize: 15, fontWeight: '600' },
   confirmBtn: { flex: 1, backgroundColor: '#2f6fed', paddingVertical: 16, alignItems: 'center' },
@@ -107,4 +105,50 @@ export const styles = StyleSheet.create({
   placeholderImage: { width: 56, height: 56, borderRadius: 8, backgroundColor: '#dfe7f5', alignItems: 'center', justifyContent: 'center' },
   placeholderText: { fontSize: 12, color: '#555' },
   selectedName: { fontSize: 16, fontWeight: '600', color: '#222', marginLeft: 12 },
+
+  // --- ส่วน Bottom Navigation ใหม่ ---
+  bottomNavContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF', 
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#EEEEEE',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  navItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  navText: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 4,
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: -5,
+    right: -10,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 4,
+  },
+  cartBadgeText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
 });

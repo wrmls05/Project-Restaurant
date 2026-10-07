@@ -13,11 +13,14 @@ export default function MenuScreen({
   cart = [],
   onCartChange,
   onGoTables,
-  onGoBill,
   onGoOrder,
+  onGoBill,
 }) {
   const [categories, setCategories] = useState(CATEGORIES);
   const [menuItems, setMenuItems] = useState(MENU_ITEMS);
+  const [activeCategoryId, setActiveCategoryId] = useState(CATEGORIES[0]?.category_id);
+  const [selectedItem, setSelectedItem] = useState(null);
+
   useEffect(() => {
     let active = true;
     Promise.all([
@@ -33,13 +36,13 @@ export default function MenuScreen({
     }).catch(() => {});
     return () => { active = false; };
   }, [db]);
+
   const activeCategories = useMemo(() => categories.filter((category) => category.is_active), [categories]);
-  const [activeCategoryId, setActiveCategoryId] = useState(activeCategories[0]?.category_id);
-  const [selectedItem, setSelectedItem] = useState(null);
 
   const visibleItems = menuItems.filter(
     (item) => item.category_id === activeCategoryId && item.is_available
   );
+
   const cartTotal = cart.reduce(
     (sum, item) => sum + Number(item.unit_price || 0) * Number(item.quantity || 0),
     0
@@ -50,7 +53,7 @@ export default function MenuScreen({
     setSelectedItem(null);
   };
 
-  const openReview = () => {
+  const openCart = () => {
     if (cart.length > 0) navigation.navigate('CheckOrder');
   };
 
@@ -109,27 +112,34 @@ export default function MenuScreen({
         onConfirm={addItemToCart}
       />
 
-      <View style={[styles.summaryBar, { bottom: 48 }]}>
+      {/* แถบสรุป = ตะกร้า */}
+      <View style={[styles.summaryBar, { bottom: 65 }]}>
         <Text style={styles.summaryText}>
           {cart.length} รายการ · {cartTotal} บาท
         </Text>
         <TouchableOpacity
           style={[styles.submitBtn, cart.length === 0 && styles.confirmBtnDisabled]}
-          onPress={openReview}
+          onPress={openCart}
           disabled={cart.length === 0}
         >
-          <Text style={styles.submitBtnText}>ตรวจสอบและส่งออเดอร์</Text>
+          <Text style={styles.submitBtnText}>ดูตะกร้า 🛒</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.bottomNav}>
-        <TouchableOpacity onPress={onGoTables}>
-          <Text style={styles.navText}>เลือกโต๊ะ</Text>
+      {/* Bottom Nav: หน้าแรก / ออเดอร์ / บิล */}
+      <View style={styles.bottomNavContainer}>
+        <TouchableOpacity style={styles.navItem} onPress={onGoTables}>
+          <Text style={{ fontSize: 24, opacity: 0.5 }}>🏠</Text>
+          <Text style={styles.navText}>หน้าแรก</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onGoOrder}>
+        
+        <TouchableOpacity style={styles.navItem} onPress={onGoOrder}>
+          <Text style={{ fontSize: 24, opacity: 0.5 }}>📋</Text>
           <Text style={styles.navText}>ออเดอร์</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onGoBill}>
+
+        <TouchableOpacity style={styles.navItem} onPress={onGoBill}>
+          <Text style={{ fontSize: 24, opacity: 0.5 }}>🧾</Text>
           <Text style={styles.navText}>บิล</Text>
         </TouchableOpacity>
       </View>
