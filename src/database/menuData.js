@@ -121,7 +121,7 @@ export const MENU_ITEMS = [
   {
     menu_item_id: 13,
     category_id: 3,
-    name: 'ก๋วยเตี๋ยวน้ำใส',
+    name: 'ก๋วยเตี๋ยวมาม่าน้ำใส',
     price: 45,
     is_available: 1,
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9NLETqHt5DrqZU9L13tkJGk5nxUZUr5hrPNSrAuDndA&s=10',
@@ -130,7 +130,7 @@ export const MENU_ITEMS = [
   {
     menu_item_id: 14,
     category_id: 3,
-    name: 'เย็นตาโฟ',
+    name: 'เส้นเล็กเย็นตาโฟ',
     price: 50,
     is_available: 1,
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6laZvUl2BpxEFT7UXFIgm0p4BrjiDzhEqqQfxbNb4Qw&s=10',
@@ -148,7 +148,7 @@ export const MENU_ITEMS = [
   {
     menu_item_id: 16,
     category_id: 3,
-    name: 'ราดหน้า',
+    name: 'ราดหน้าหมี่กรอบ',
     price: 50,
     is_available: 1,
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREKPsaeDxi0x7FeXueuWMe8GXUDuumylPlUkuvOyLw1g&s=10',

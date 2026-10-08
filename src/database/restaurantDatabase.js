@@ -77,7 +77,7 @@ export async function openRestaurantDatabase() {
     await db.runAsync(
       `INSERT INTO menu_items (menu_item_id, category_id, name, price, is_available)
        VALUES (?, ?, ?, ?, ?)
-       ON CONFLICT(menu_item_id) DO UPDATE SET price = excluded.price`,
+       ON CONFLICT(menu_item_id) DO UPDATE SET price = excluded.price, name = excluded.name`,
       item.menu_item_id,
       item.category_id,
       item.name,
