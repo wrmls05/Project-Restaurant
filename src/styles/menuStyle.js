@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   tabText: { fontSize: 14, color: '#999', marginRight: 18, paddingBottom: 6 },
   tabTextActive: { color: '#222', fontWeight: '600', borderBottomWidth: 2, borderBottomColor: '#2f6fed' },
   itemCard: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
     padding: 12,
