@@ -3,13 +3,13 @@ import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../styles/menuStyle';
 
-export default function CheckOrderScreen({ table, cart = [], onCancel, onConfirm }) {
+export default function CheckOrderScreen({ table, cart = [], onCancel, onConfirm, onCartChange }) {
   const total = cart.reduce(
     (sum, item) => sum + Number(item.unit_price || 0) * Number(item.quantity || 0),
     0
   );
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item, index }) => (
     <View style={styles.itemCard}>
       <View style={styles.itemImage}>
         {item.image ? (
@@ -25,6 +25,14 @@ export default function CheckOrderScreen({ table, cart = [], onCancel, onConfirm
         <Text style={styles.itemLine}>
           รวม {Number(item.unit_price || 0) * Number(item.quantity || 0)} บาท
         </Text>
+        <TouchableOpacity
+          style={[styles.selectBtn, {backgroundColor:'#c0392b', marginTop:8}]}
+          onPress={() => onCartChange(cart.filter((_, itemIndex)=> itemIndex !== index))}
+        >
+          <Text style={styles.selectBtnText}>
+            ลบรายการ
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
