@@ -51,12 +51,12 @@ export default function AddonModal({ visible, item, onClose, onConfirm }) {
       return;
     }
 
-    if (addon.bottleOptions?.length > 0 && !meat) {
+    if (addon.bottleOptions?.length > 0 && !bottle) {
       Alert.alert('กรุณาเลือกรูปแบบเครื่องดื่ม' , 'เลือกรูปแบบเครื่องดื่มก่อนเพิ่มรายการอาหาร')
       return;
     }
 
-    if (addon.serveOptions?.length > 0 && !meat) {
+    if (addon.serveOptions?.length > 0 && !serve) {
       Alert.alert('กรุณาเลือกรูปแบบการเสริฟ' , 'เลือกรูปแบบการเสริฟก่อนเพิ่มรายการอาหาร')
       return;
     }
