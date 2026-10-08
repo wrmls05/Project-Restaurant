@@ -71,7 +71,7 @@ export const MENU_ITEMS = [
     price: 20,
     is_available: 1,
     image: 'https://st.bigc-cs.com/cdn-cgi/image/format=webp,quality=90/public/media/catalog/product/11/88/8855199632011/8855199632011_2-20240606193806-.webp',
-    addon: { bottleOptions: ['ขวด', 'โปร', 'ทาวเวอร์', 'แก้ว'] },
+    addon: { bottleOptions: ['ขวด', 'แก้ว'] },
   },
   {
     menu_item_id: 9,
@@ -80,7 +80,7 @@ export const MENU_ITEMS = [
     price: 10,
     is_available: 1,
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuPS-DBvhF5sIMvGR1cT9SoTyJ2KKUTphiAwcDkw6GPA&s=10',
-    addon: { bottleOptions: ['ขวดเล็ก', 'ขวดใหญ่'] },
+    addon: { bottleOptions: ['ขวด', 'แก้ว'] },
   },
   {
     menu_item_id: 10,
@@ -112,7 +112,7 @@ export const MENU_ITEMS = [
   {
     menu_item_id: 7,
     category_id: 3,
-    name: 'ก๋วยเตี๋ยวต้มยำ',
+    name: 'มาม่าต้มยำ',
     price: 45,
     is_available: 1,
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYHQUIWpJNPAwAiuPMZsmhPjotMte8A93H6frIfx5Xeg&s=10',
@@ -170,7 +170,7 @@ export const MENU_ITEMS = [
     price: 60,
     is_available: 1,
     image: 'https://blog.hungryhub.com/wp-content/uploads/2022/04/fresh-ripe-mango-sticky-rice-with-coconut-milk-dark-surface-1024x683.jpg',
-    addon: { serveOptions: ['เสิร์ฟทันที', 'แยกกะทิ'] },
+    addon: { serveOptions: ['เสิร์ฟทีหลัง', 'เสิร์ฟทันที'] },
   },
   {
     menu_item_id: 18,
@@ -179,7 +179,7 @@ export const MENU_ITEMS = [
     price: 35,
     is_available: 1,
     image: 'https://img.kapook.com/u/2022/wanwanat/1079595941.jpg',
-    addon: { serveOptions: ['ร้อน', 'เย็น'] },
+    addon: { serveOptions: ['เสิร์ฟทีหลัง', 'เสิร์ฟทันที'] },
   },
   {
     menu_item_id: 19,
@@ -188,7 +188,7 @@ export const MENU_ITEMS = [
     price: 35,
     is_available: 1,
     image: 'https://www.ryoiireview.com/upload/article/201703/1490859322_ad1f17c1703feed1aa9f266d2ebcc056.jpg',
-    addon: { serveOptions: ['หวานปกติ', 'หวานน้อย'] },
+    addon: { serveOptions: ['เสิร์ฟทีหลัง', 'เสิร์ฟทันที'] },
   },
   {
     menu_item_id: 20,
@@ -197,6 +197,6 @@ export const MENU_ITEMS = [
     price: 40,
     is_available: 1,
     image: 'https://i.pinimg.com/474x/3f/ab/5e/3fab5e436f917d68d79aae673e73f916.jpg',
-    addon: { serveOptions: ['หวานปกติ', 'หวานน้อย'], extras: [{ label: 'เพิ่มไข่มุก', price: 10 }] },
+    addon: { serveOptions: ['เสิร์ฟทีหลัง', 'เสิร์ฟทันที'] },
   },
 ];
