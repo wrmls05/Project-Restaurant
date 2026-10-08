@@ -50,6 +50,17 @@ export default function AddonModal({ visible, item, onClose, onConfirm }) {
       Alert.alert('กรุณาเลือกเนื้อสัตว์' , 'เลือกเนื้อสัตว์ก่อนเพิ่มรายการอาหาร')
       return;
     }
+
+    if (addon.bottleOptions?.length > 0 && !meat) {
+      Alert.alert('กรุณาเลือกรูปแบบเครื่องดื่ม' , 'เลือกรูปแบบเครื่องดื่มก่อนเพิ่มรายการอาหาร')
+      return;
+    }
+
+    if (addon.serveOptions?.length > 0 && !meat) {
+      Alert.alert('กรุณาเลือกรูปแบบการเสริฟ' , 'เลือกรูปแบบการเสริฟก่อนเพิ่มรายการอาหาร')
+      return;
+    }
+
     onConfirm({
       menu_item_id: item.menu_item_id,
       name: item.name,
