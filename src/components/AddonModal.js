@@ -1,11 +1,5 @@
-// src/components/AddonModal.js
-// popup ตอนกด "เลือก" เมนู — เนื่องจาก schema ไม่มีตาราง addon แยก
-// ตัวเลือก (เนื้อสัตว์ / ขวด / สถานะเสิร์ฟ / รายการเพิ่ม) เลยถูกอัดรวมเป็น:
-//   - unit_price = ราคาเมนู + ราคารวมของ extras ที่ติ๊ก
-//   - note        = คำอธิบายตัวเลือกทั้งหมด ต่อกันเป็นข้อความ
-// ผลลัพธ์ที่ onConfirm ส่งออกมา จึง map ตรงกับคอลัมน์ของ order_items ได้เลย
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, Image, Alert } from 'react-native';
 import Dropdown from './Dropdown';
 
 export default function AddonModal({ visible, item, onClose, onConfirm }) {
@@ -52,6 +46,10 @@ export default function AddonModal({ visible, item, onClose, onConfirm }) {
   };
 
   const handleConfirm = () => {
+    if (addon.meatOptions?.length > 0 && !meat) {
+      Alert.alert('กรุณาเลือกเนื้อสัตว์' , 'เลือกเนื้อสัตว์ก่อนเพิ่มรายการอาหาร')
+      return;
+    }
     onConfirm({
       menu_item_id: item.menu_item_id,
       name: item.name,
