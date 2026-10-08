@@ -155,6 +155,7 @@ export default function App() {
                 {...screenProps}
                 cart={cart}
                 onCancel={() => props.navigation.goBack()}
+                onCartChange={setCart}
                 onConfirm={(items) => confirmOrder(items, props.navigation)}
               />
             )}
