@@ -11,10 +11,31 @@ export default function QueOrdersScreen({ navigation, db, refreshKey, onSetStatu
   
   useFocusEffect(useCallback(() => {
     let active = true;
-    db.getAllAsync(`SELECT i.order_item_id, i.quantity, i.unit_price, i.note, i.status, r.round_number,
-      b.table_id, m.name, r.ordered_at FROM order_items i JOIN order_rounds r ON r.round_id=i.round_id
-      JOIN bills b ON b.bill_id=r.bill_id JOIN menu_items m ON m.menu_item_id=i.menu_item_id
-      WHERE b.status='open' ORDER BY CASE i.status WHEN 'waiting' THEN 0 WHEN 'cooking' THEN 1 ELSE 2 END, r.ordered_at, i.order_item_id`)
+    db.getAllAsync(`
+      SELECT 
+        i.order_item_id, 
+        i.quantity, 
+        i.unit_price, 
+        i.note, 
+        i.status, 
+        r.round_number,
+        b.table_id, 
+        m.name, 
+        r.ordered_at 
+      FROM order_items i 
+      JOIN order_rounds r ON r.round_id=i.round_id
+      JOIN bills b ON b.bill_id=r.bill_id 
+      JOIN menu_items m ON m.menu_item_id=i.menu_item_id
+      WHERE b.status='open'
+        ORDER BY
+          CASE i.status 
+          WHEN 'waiting' THEN 0 
+          WHEN 'cooking' THEN 1 
+          ELSE 2 
+        END, 
+        r.ordered_at, 
+        i.order_item_id`
+    )
       .then((rows) => { if (active) setItems(rows); }).catch(() => { if (active) setItems([]); });
     return () => { active = false; };
   }, [db, refreshKey]));

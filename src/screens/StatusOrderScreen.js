@@ -14,11 +14,28 @@ export default function StatusOrderScreen({ db, table, onCancelItem, onGoTables,
     let active = true;
     (async () => {
       try {
-        const rows = await db.getAllAsync(`SELECT i.order_item_id AS id, i.quantity, i.unit_price, i.note, i.status, r.round_number, m.name
-          FROM order_items i JOIN order_rounds r ON r.round_id=i.round_id JOIN bills b ON b.bill_id=r.bill_id
-          JOIN menu_items m ON m.menu_item_id=i.menu_item_id WHERE b.table_id=? AND b.status='open'
-          ORDER BY r.round_number DESC, i.order_item_id`, Number(table?.id));
+        const rows = await db.getAllAsync(`
+          SELECT 
+            i.order_item_id AS id, 
+            i.quantity, 
+            i.unit_price, 
+            i.note, 
+            i.status, 
+            r.round_number,
+            m.name
+          FROM order_items i 
+          JOIN order_rounds r ON r.round_id=i.round_id 
+          JOIN bills b ON b.bill_id=r.bill_id
+          JOIN menu_items m ON m.menu_item_id=i.menu_item_id 
+          WHERE b.table_id=? 
+            AND b.status='open'
+          ORDER BY 
+            r.round_number DESC, 
+            i.order_item_id`,
+        Number(table?.id));
+
         if (active) setItems(rows);
+
       } catch { if (active) setItems([]); }
       finally { if (active) setLoading(false); }
     })();

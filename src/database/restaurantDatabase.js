@@ -60,8 +60,11 @@ export async function openRestaurantDatabase() {
       FOREIGN KEY (menu_item_id) REFERENCES menu_items(menu_item_id) ON DELETE RESTRICT
     );
 
-    CREATE INDEX IF NOT EXISTS idx_order_items_round_id ON order_items(round_id);
-    CREATE INDEX IF NOT EXISTS idx_order_rounds_bill_id ON order_rounds(bill_id);
+    CREATE INDEX IF NOT EXISTS idx_order_items_round_id 
+    ON order_items(round_id);
+
+    CREATE INDEX IF NOT EXISTS idx_order_rounds_bill_id 
+    ON order_rounds(bill_id);
   `);
 
   for (const category of CATEGORIES) {

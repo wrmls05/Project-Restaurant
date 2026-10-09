@@ -11,15 +11,36 @@ export default function AllBillsScreen({ navigation, db, refreshKey, onCloseBill
 
     useFocusEffect(useCallback(() => {
         let active = true;
-        db.getAllAsync(`SELECT b.bill_id, b.table_id, b.opened_at, b.closed_at, b.status,
-      COALESCE(SUM(CASE WHEN i.status <> 'cancelled' THEN i.quantity * i.unit_price ELSE 0 END), 0) AS total,
-      COUNT(i.order_item_id) AS item_count
-      FROM bills b LEFT JOIN order_rounds r ON r.bill_id=b.bill_id LEFT JOIN order_items i ON i.round_id=r.round_id
-      GROUP BY b.bill_id ORDER BY CASE b.status WHEN 'open' THEN 0 ELSE 1 END, b.opened_at DESC`)
-            .then((rows) => { if (active) setBills(rows); }).catch(() => { if (active) setBills([]); });
+        db.getAllAsync(`
+            SELECT 
+                b.bill_id, 
+                b.table_id, 
+                b.opened_at, 
+                b.closed_at, 
+                b.status,
+                COALESCE(
+                    SUM(
+                        CASE 
+                            WHEN i.status <> 'cancelled' 
+                            THEN i.quantity * i.unit_price 
+                            ELSE 0 
+                        END
+                    ), 
+                    0
+                ) AS total,
+                COUNT(i.order_item_id) AS item_count
+                FROM bills b 
+                LEFT JOIN order_rounds r ON r.bill_id=b.bill_id 
+                LEFT JOIN order_items i ON i.round_id=r.round_id
+                GROUP BY b.bill_id 
+                ORDER BY 
+                    CASE b.status WHEN 'open' THEN 0 ELSE 1 END,
+                    b.opened_at DESC`
+        )
+        .then((rows) => { if (active) setBills(rows); }).catch(() => { if (active) setBills([]); });
 
         return () => { active = false; };
-
+        
     }, [db, refreshKey]));
 
     const filtered = bills.filter((bill) => bill.status === activeTab);
