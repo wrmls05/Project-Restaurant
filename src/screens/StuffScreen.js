@@ -21,9 +21,6 @@ export default function StuffScreen({ navigation, onStartOrder }) {
             <Text style={styles.headerTitle}>ฝั่งครัวและพนักงาน</Text>
             <Text style={styles.headerSubtitle}>เลือกงานที่ต้องการทำ</Text>
           </View>
-          <TouchableOpacity style={styles.iconCircleButton}>
-            <Text style={{ fontSize: 18 }}>⚙️</Text>
-          </TouchableOpacity>
         </View>
 
         {/* การ์ดหลัก: เริ่มรับออเดอร์ */}
